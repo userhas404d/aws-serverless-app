@@ -1,7 +1,3 @@
-# ToDo:
-# [] incorporate clodfront
-# [] auto certificate reqesting/confirmation via DNS
-
 variable "domain_name" {
   default     = "getmyuselesswebsite.com"
   type        = "string"
@@ -34,4 +30,18 @@ module "s3" {
   environment                   = "${var.environment}"
   pool_name                     = "test-pool"
   cognito_user_pool_client_name = "test-app"
+}
+
+module "dynamodb" {
+  source      = "dynamo_db"
+  table_name  = "Rides"
+  environment = "${var.environment}"
+  hash_key    = "RideId"
+  attribute   = "RideId"
+}
+
+module "lambda" {
+  source             = "lambda"
+  dyanmodb_table_arn = "${module.dynamodb.table_arn}"
+  lambda_role_name   = "${var.domain_name}-LambdaRole"
 }

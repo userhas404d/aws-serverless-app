@@ -67,10 +67,10 @@ data "aws_iam_policy_document" "main_bucket_read" {
 
 # main bucket - without logging
 resource "aws_s3_bucket" "main" {
-  count  = "${!var.enable_logging ? 1 : 0}"
-  bucket = "${var.domain_name}"
-  acl    = "public-read"
-  policy = "${data.aws_iam_policy_document.main_bucket_read.json}"
+  count         = "${!var.enable_logging ? 1 : 0}"
+  bucket        = "${var.domain_name}"
+  acl           = "public-read"
+  policy        = "${data.aws_iam_policy_document.main_bucket_read.json}"
   force_destroy = true
 
   website {
@@ -86,10 +86,10 @@ resource "aws_s3_bucket" "main" {
 
 # main bucket - with logging
 resource "aws_s3_bucket" "main_logging" {
-  count  = "${var.enable_logging ? 1 : 0}"
-  bucket = "${var.domain_name}"
-  acl    = "public-read"
-  policy = "${data.aws_iam_policy_document.main_bucket_read.json}"
+  count         = "${var.enable_logging ? 1 : 0}"
+  bucket        = "${var.domain_name}"
+  acl           = "public-read"
+  policy        = "${data.aws_iam_policy_document.main_bucket_read.json}"
   force_destroy = true
 
   website {
@@ -115,6 +115,7 @@ data "aws_iam_policy_document" "www_bucket_read" {
     sid       = "PublicReadGetObject"
     actions   = ["s3:GetObject"]
     resources = ["arn:aws:s3:::www.${var.domain_name}/*"]
+
     principals {
       type        = "*"
       identifiers = ["*"]
@@ -123,10 +124,11 @@ data "aws_iam_policy_document" "www_bucket_read" {
 }
 
 resource "aws_s3_bucket" "www" {
-  bucket = "www.${var.domain_name}"
-  acl    = "public-read"
-  policy = "${data.aws_iam_policy_document.www_bucket_read.json}"
+  bucket        = "www.${var.domain_name}"
+  acl           = "public-read"
+  policy        = "${data.aws_iam_policy_document.www_bucket_read.json}"
   force_destroy = true
+
   website {
     redirect_all_requests_to = "${var.domain_name}"
   }
@@ -207,4 +209,3 @@ resource "local_file" "config" {
   content  = "${data.template_file.config.rendered}"
   filename = "${path.module}/../static_content/js/config.js"
 }
-
