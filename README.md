@@ -9,6 +9,6 @@ Terraform implementation of the exercise provided by AWS found [here](https://aw
 
 ## ToDo
 
-[] incorporate clodfront
-[] auto certificate reqesting/confirmation via DNS
-[] streamline lambda package zip/function creation (without creating too many dependencies..)
+- [] incorporate cloudfront
+- [] auto certificate reqesting/confirmation via DNS
+- [] streamline lambda package zip/function creation (without creating too many dependencies..)
