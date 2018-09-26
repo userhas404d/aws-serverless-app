@@ -28,6 +28,8 @@ variable "cognito_user_pool_client_name" {
   default     = "testapp"
 }
 
+variable "invoke_url" {}
+
 locals {
   logging_bucket_id             = "${join(",", aws_s3_bucket.main_logging.*.id)}"
   logging_bucket_hosted_zone_id = "${join(",", aws_s3_bucket.main_logging.*.hosted_zone_id)}"
@@ -190,6 +192,10 @@ resource "aws_cognito_user_pool_client" "client" {
   explicit_auth_flows = ["ADMIN_NO_SRP_AUTH"]
 }
 
+output "cognito_user_pool_arn" {
+  value = "${aws_cognito_user_pool.pool.arn}"
+}
+
 # modify config.js
 
 data "aws_region" "current" {}
@@ -201,7 +207,7 @@ data "template_file" "config" {
     user_pool_id        = "${aws_cognito_user_pool.pool.id}"
     user_pool_client_id = "${aws_cognito_user_pool_client.client.id}"
     region              = "${data.aws_region.current.name}"
-    invoke_url          = ""
+    invoke_url          = "${var.invoke_url}"
   }
 }
 

@@ -30,12 +30,13 @@ module "s3" {
   environment                   = "${var.environment}"
   pool_name                     = "test-pool"
   cognito_user_pool_client_name = "test-app"
+  invoke_url                    = "${module.api_gateway.invoke_url}"
 }
 
 module "dynamodb" {
   source      = "dynamo_db"
-  table_name  = "Rides"
   environment = "${var.environment}"
+  table_name  = "Rides"
   hash_key    = "RideId"
   attribute   = "RideId"
 }
@@ -44,4 +45,12 @@ module "lambda" {
   source             = "lambda"
   dyanmodb_table_arn = "${module.dynamodb.table_arn}"
   lambda_role_name   = "${var.domain_name}-LambdaRole"
+}
+
+module "api_gateway" {
+  source            = "api_gateway"
+  environment       = "${var.environment}"
+  api_gateway_name  = "${var.domain_name}"
+  cognito_user_pool = "${module.s3.cognito_user_pool_arn}"
+  lambda_arn        = "${module.lambda.arn}"
 }

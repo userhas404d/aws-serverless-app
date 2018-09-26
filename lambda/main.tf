@@ -74,3 +74,11 @@ resource "aws_lambda_function" "lambda_function" {
   source_code_hash = "${base64sha256(file("${path.module}/../lambda/lambda_package.zip"))}"
   runtime          = "nodejs6.10"
 }
+
+output "invoke_arn" {
+  value = "${aws_lambda_function.lambda_function.invoke_arn}"
+}
+
+output "arn" {
+  value = "${aws_lambda_function.lambda_function.arn}"
+}
