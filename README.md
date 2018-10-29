@@ -9,11 +9,11 @@ Terraform implementation of the exercise provided by AWS found [here](https://aw
 
 ## ToDo
 
-- [] get the api resources to work properly
-- [] incorporate cloudfront
-- [] auto certificate reqesting/confirmation via DNS
-- [] split api gateway creation from api resources (one gateway to many resources)
-- [] streamline lambda package zip/function creation (without creating too many dependencies..)
+- [ ] get the api resources to work properly
+- [ ] incorporate cloudfront
+- [ ] auto certificate reqesting/confirmation via DNS
+- [ ] split api gateway creation from api resources (one gateway to many resources)
+- [ ] streamline lambda package zip/function creation (without creating too many dependencies..)
 
 ## ShoutOuts
 
